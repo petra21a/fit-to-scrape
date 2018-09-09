@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col m6 s12">
+
+        <h2>Scrapped Articles</h2>
+        <ul>
+            {{#each burgers}} {{#unless devoured}}
+            <h4>{{burger_name}}
+                <button class="btn-small burger-devour waves-effect  orange lighten-2 waves-red" data-id="{{id}}">
+                    Devour!
+                    <i class="material-icons right">restaurant</i>
+                </button>
+            </h4>
+            {{/unless}} {{else}}
+            <p class="empty">No articles - please Scrape</p>
+            {{/each}}
+
+        </ul>
+
+    </div>
+</div>
