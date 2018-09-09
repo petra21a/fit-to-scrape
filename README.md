@@ -1,1 +1,1 @@
-# fitToScrape
+# fit-to-scrape
