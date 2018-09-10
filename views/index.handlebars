@@ -1,20 +1,48 @@
-<div class="row">
-    <div class="col m6 s12">
-
-        <h2>Scrapped Articles</h2>
-        <ul>
-            {{#each burgers}} {{#unless devoured}}
-            <h4>{{burger_name}}
-                <button class="btn-small burger-devour waves-effect  orange lighten-2 waves-red" data-id="{{id}}">
-                    Devour!
-                    <i class="material-icons right">restaurant</i>
-                </button>
-            </h4>
-            {{/unless}} {{else}}
-            <p class="empty">No articles - please Scrape</p>
-            {{/each}}
-
-        </ul>
-
+<h2>Scrapped Articles</h2>
+<ul>
+    {{#each dbArticle}} {{#unless saved}}
+    <div class="col s8 m7 p2 red lighten-1 hoverable">
+        <h4 class="header center-align">{{headline}}</h4>
+        <div class="card horizontal">
+            <div class="card-image">
+                <img src={{photoUrl}}>
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <p class="right-align">{{byline}}</p>
+                    <h5 class="left-align">{{summary}}</h5>
+                </div>
+                <div class="card-action">
+                    <a href={{url}} target="_blank">Full Article</a>
+                    <a id={{id}} class="comment waves-effect waves-orange white orange-text btn-large"><i class="material-icons left">add_circle_outline</i>comments</a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    {{/unless}} {{else}}
+    <p class="empty">No articles - please Scrape</p>
+    {{/each}}
+
+</ul>
+
+<div id="comment-modal" class="modal center-align">
+    <div id="add-comment" class="modal-content">
+        <form action="/submit" method="post">
+            <div class="input-field col s12">
+                <label for="comment">New Comment:</label>
+                <input placeholder="add thoughts here" id="comment" type="text" name="comment" class="validate">
+                <button id="comment-submit" class="btn waves-effect waves-light" type="submit">Add Comment
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+        <div class="list-comments col s12">
+            <ul>
+                {{#each dbNote}} 
+                <p>{{date}} - {{note.comment}}</p>
+              {{else}}
+                <p class="empty">No notes!</p>
+                {{/each}}
+            </ul>
+        </div>
+    </div>

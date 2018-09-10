@@ -31,54 +31,26 @@ const bodyParser = require("body-parser");
 //'extended' relates to difference between qs and querystring
 app.use(bodyParser.urlencoded({ extended: true }));
 
-////REQUEST////
-//require request
-const request = require("request");
+////MONGOOSE////
+//require mongoose
+const mongoose = require("mongoose");
 
-////CHEERIO////
-//require cheerio
-const cheerio = require("cheerio");;
+//require models for mongoose
+const db = require("./models");
 
-///SCRAPING TEST////
-const uri = "https://www.entrepreneur.com/topic/coding"
-request(uri, (error, response, html) => {
-
-    // Load the HTML into cheerio and save it to a variable
-    // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-    const $ = cheerio.load(html);
-
-    const results = [];
-
-    $('.pl').each((i, element) => {
-const headline = $(element).find(".block").find("h3").attr("data-ga-action","headline").text();
-const summary = $(element).find(".deck").text()
-const url =$(element).find(".block").find("h3").children().attr("href");
-const photo = $(element).find(".hero").children().find("img").attr("src");
-const byline = $(element).find(".byline").find(".name").text();
-
-        results.push({
-            headline: headline,
-            summary: summary,
-            url: url,
-            photo: photo,
-            byline: byline
-        })
-    })
-    console.log(results);
-})
-
-
-
-
-
+// Connect to the Mongo DB
+mongoose.connect("mongodb://localhost/fit-to-scrape", { useNewUrlParser: true });
+mongoose.set('useCreateIndex', true);
 
 
 ////EXPRESS ROUTES////
 
-//express route to 'home'
-app.get("/", function (request, result) {
-    result.render('index');
-})
+// Import routes and give the server access to them.
+// const route = require("./routes/article-routes.js");
+// app.use(route);
+
+require("./routes/article-routes.js")(app);
+
 
 ////LISTEN ON PORT////
 
