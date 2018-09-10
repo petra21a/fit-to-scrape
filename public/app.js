@@ -1,10 +1,15 @@
 // Make sure we wait to attach our handlers until the DOM is fully loaded.
+
 $(function () {
 
     $('.modal').modal();
 
 
     $(document).on("click", ".modal-close", function (event) {
+        console.log("close modal")
+        return true;
+    })
+    $(document).on("click", "#comment-submit", function (event) {
         console.log("clicked submit")
         return true;
     })
@@ -14,15 +19,18 @@ $(function () {
         let queryID = $(this).attr("id");
         $("#comment-submit").attr("name", "queryId");
         $("#comment-submit").attr("value", queryID);
-        $('#comment-modal').modal('open');
         $.ajax({
-            method: "GET",
-            url: "/notes",
+            method: "POST",
+            url: "/selected",
             data: {
-                queryID: queryID
-            }
-        });
-
-    });
+                    queryID: queryID
+                }
+            })
+            .then(function(data){
+                console.log("start modal")
+                $('#comment-modal').modal('open');
+        })
+    })
 
 });
+

@@ -1,6 +1,6 @@
 <h2>Scrapped Articles</h2>
 <ul>
-    {{#each dbArticle}} {{#unless saved}}
+    {{#each dbArticle}}
     <div class="col s8 m7 p2 red lighten-1 hoverable">
         <h4 class="header center-align">{{headline}}</h4>
         <div class="card horizontal">
@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    {{/unless}} {{else}}
+    {{else}}
     <p class="empty">No articles - please Scrape</p>
     {{/each}}
 
@@ -37,12 +37,20 @@
             </div>
         </form>
         <div class="list-comments col s12">
+                {{#each dbArticle}} {{#if selected}}
             <ul>
-                {{#each dbNote}} 
-                <p>{{date}} - {{note.comment}}</p>
-              {{else}}
-                <p class="empty">No notes!</p>
+                {{#each note}}
+              <p> {{comment}}</p> 
                 {{/each}}
             </ul>
+
+                {{/if}} {{else}}
+                <p class="empty">no notes</p>
+
+                {{/each}}
+
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
         </div>
     </div>
