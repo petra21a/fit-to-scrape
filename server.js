@@ -39,7 +39,10 @@ const mongoose = require("mongoose");
 const db = require("./models");
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/fit-to-scrape", { useNewUrlParser: true });
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/fit-to-scrape";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+// mongoose.connect("mongodb://localhost/fit-to-scrape", { useNewUrlParser: true });
 mongoose.set('useCreateIndex', true);
 
 
