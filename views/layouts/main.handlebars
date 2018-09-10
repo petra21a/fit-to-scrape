@@ -3,19 +3,48 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Eat-Da-Burger</title>
+	<title>Coding News Scrapper</title>
 	<!-- Materialize -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+
 </head>
 
-<body class="container blue lighten-5">
-	{{{ body }}}
+<body class="container blue lighten-4">
+	<div class="parallax-container">
+		<p class="white-text right-align header">
+			<h1 class="center-align blue text-white">Entrepreneur Magazine - Coding Industry News</h1>
+
+		</p>
+		<div class="valign-wrapper h100">
+			<h1 class=" white-text overlay center-align">
+				<a href="#!" class="refresh waves-effect waves-blue amber text-white btn-medium">Refresh Articles</a>
+				<h5 class="hide-on-med-and-down text-white blue lighten-5 italic">Stay current on the latest trends,
+				and comment on your favorite articles</h5>
+
+			</h1>
+			<div class="parallax">
+				<img src="https://www.burning-glass.com/wp-content/uploads/coding_screen_400x300-e1535048737568.jpg">
+			</div>
+		</div>
+	</div>
+
+	<div class="section white">
+		<div class="container">
+			{{{ body }}}
+		</div>
+	</div>
+
+
+
+
 </body>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="app.js"></script>
+<script type="text/javascript" src="app.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 
 </html>

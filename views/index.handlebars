@@ -1,8 +1,7 @@
-<h2>Scrapped Articles</h2>
 <ul>
     {{#each dbArticle}}
-    <div class="col s8 m7 p2 red lighten-1 hoverable">
-        <h4 class="header center-align">{{headline}}</h4>
+    <div class="col s8 m7 p2 amber lighten-2 hoverable">
+        <h4 class="center-align">{{headline}}</h4>
         <div class="card horizontal">
             <div class="card-image">
                 <img src={{photoUrl}}>
@@ -18,36 +17,58 @@
                 </div>
             </div>
         </div>
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header orange-text "><i class="material-icons medium">comment</i>
+                <h6>Comments</h6>
+            </div>
+            <div class="collapsible-body orange lighten-5"><span>
+                    {{!-- <ul> --}}
+                        {{#each note}}
+                        <div class="row">
+                            <div class="col s8">
+                                <h5>comment:" {{comment}} "</h5>
+                                <p class="text-italic">date: {{date}}<p>
+                            </div>
+                            <div class="col s4">
+                                <a id={{id}} href="#!" class="comment-delete waves-effect orange waves-white btn-small justify-center">Delete</a>
+                            </div>
+                        </div>
+                        {{else}}
+                        <p>no notes</p>
+                        {{/each}}
+                </span>
+            </div>
+        </li>
+    </ul>
     </div>
     {{else}}
     <p class="empty">No articles - please Scrape</p>
     {{/each}}
-
 </ul>
+
 
 <div id="comment-modal" class="modal center-align">
     <div id="add-comment" class="modal-content">
-        <form action="/submit" method="post">
-            <div class="input-field col s12">
-                <label for="comment">New Comment:</label>
-                <input placeholder="add thoughts here" id="comment" type="text" name="comment" class="validate">
-                <button id="comment-submit" class="btn waves-effect waves-light" type="submit">Add Comment
-                    <i class="material-icons right">send</i>
-                </button>
-            </div>
-        </form>
+        <div class="input-field col s12">
+            <label for="comment">New Comment:</label>
+            <input placeholder="add thoughts here" id="comment" type="text" name="comment" class="validate">
+            <button id="comment-submit" class="btn waves-effect waves-light" type="submit">Add Comment
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
         <div class="list-comments col s12">
-                {{#each dbArticle}} {{#if selected}}
+            {{#each dbArticle}} {{#if selected}}
             <ul>
                 {{#each note}}
-              <p> {{comment}}</p> 
+                <p>{{date}}: {{comment}}</p>
                 {{/each}}
             </ul>
 
-                {{/if}} {{else}}
-                <p class="empty">no notes</p>
+            {{/if}} {{else}}
+            <p class="empty">no notes</p>
 
-                {{/each}}
+            {{/each}}
 
         </div>
         <div class="modal-footer">

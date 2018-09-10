@@ -2,16 +2,41 @@
 
 $(function () {
 
+        $('.collapsible').collapsible();
+        $('.parallax').parallax();
     $('.modal').modal();
 
-
+    $(document).on("click", ".comment-delete", function (event) {
+        $.ajax({
+            method: "DELETE",
+            url: "/remove",
+            data: {
+                queryID: $(this).attr("id"),
+            }
+        })
+            location.reload()
+        
+    })
     $(document).on("click", ".modal-close", function (event) {
         console.log("close modal")
-        return true;
+        location.reload()
     })
-    $(document).on("click", "#comment-submit", function (event) {
-        console.log("clicked submit")
-        return true;
+    $("#comment-submit").on("click", function (event) {
+        console.log($("#comment-submit").attr("value"),$("#comment").val())
+        $.ajax({
+            method: "POST",
+            url: "/submit",
+            data: {
+                queryID: $("#comment-submit").attr("value"),
+                comment: $("#comment").val()
+            }
+        }).then(function () {
+            // $("#comment").empty();
+            // location.reload()
+        })
+        // console.log("clicked submit")
+        // return true;
+
     })
 
     $(".comment").on("click", function (event) {
@@ -19,18 +44,11 @@ $(function () {
         let queryID = $(this).attr("id");
         $("#comment-submit").attr("name", "queryId");
         $("#comment-submit").attr("value", queryID);
-        $.ajax({
-            method: "POST",
-            url: "/selected",
-            data: {
-                    queryID: queryID
-                }
-            })
-            .then(function(data){
-                console.log("start modal")
-                $('#comment-modal').modal('open');
-        })
+        $('#comment-modal').modal('open');
+
     })
+
+
 
 });
 

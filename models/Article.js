@@ -38,12 +38,7 @@ const ArticleSchema = new Schema({
         required: false
     },
 
-     // `byline` is not required and of type String
-     selected: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
+   
 
 
     // `note` is an object that stores a Note id

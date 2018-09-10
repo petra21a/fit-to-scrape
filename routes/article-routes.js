@@ -38,6 +38,7 @@ module.exports = function (app) {
                     .then(function (dbArticle) {
                         // View the added result in the console
                         // console.log(i, dbArticle);
+                   
                     })
                     .catch(function (err) {
                         if (err.code === 11000) {
@@ -51,7 +52,7 @@ module.exports = function (app) {
                     });
             });
         });
-        res.render('index');
+        res.redirect('/articles');
     });
 
     // Route for getting all Articles from the db
@@ -60,7 +61,7 @@ module.exports = function (app) {
         db.Article.find({})
             .populate("note")
             .then(function (dbArticle) {
-                console.log(dbArticle);
+                console.log("refresh articles with notes",dbArticle);
 
                 res.render("index", { dbArticle })
                 // res.json(notes);
@@ -76,7 +77,7 @@ module.exports = function (app) {
     // Route for saving a new Note to the db and associating it with an article
     app.post("/submit", function (req, res) {
         // console.log("post passed")
-        // console.log(req.body)
+        console.log(req.body.queryId)
         // Create a new Note in the db
         db.Note.create(req.body)
             .then(function (dbNote) {
@@ -86,92 +87,45 @@ module.exports = function (app) {
                 //-- it returns the original by default
                 // Since our mongoose query returns a promise, we can chain another 
                 //`.then` which receives the result of the query
-                return db.Article.findOneAndUpdate({
-                    id: req.body.queryID
+               return db.Article.findOneAndUpdate({
+                    id: req.body.queryId
                 }, {
                         $push: { note: dbNote._id }
                     }, { new: true });
+            }).then(function (dbPush) {
+                console.log(dbPush)
+                // If we were able to successfully update an Article, send it back to the client
+                res.redirect("/articles");
             })
-            .then(function (dbPush) {
-                // If the User was updated successfully, send it back to the client
-                console.log("/submit note added",dbPush);
-                db.Article.findByIdAndUpdate(
-                    {}, {
-                        $set: {
-                            selected: false
-                        }
-                    }, {
-                        new: true
-                    }, function (err, dbSelect) {
 
-                        console.log("selected set to false",dbSelect)
-                        res.redirect('/articles')
-                    }
-                )
-                    .catch(function (err) {
-                        // If an error occurs, send it back to the client
-                        res.json(err);
-                    });
-                
-                    })
-                 
+            .catch(function (err) {
+                // If an error occurs, send it back to the client
+                res.json(err);
             });
 
-        // Route for retrieving all Notes from the db
-        app.post("/selected", function (req, res) {
-            // Find all Notes
-            console.log(req.body.queryID)
-
-            db.Article.findOneAndUpdate(
-                {
-                    _id: req.body.queryID
-                }, {
-                    $set: {
-                        selected: true
-                    }
-                }, {
-                    new: true
-                }, function (err, dbSelect) {
-
-                    console.log("/selected set to selected",dbSelect)
-                    // res.send(dbSelect)
-                    res.redirect("/articles")
-                }
-            )
-                .catch(function (err) {
-                    // If an error occurs, send it back to the client
-                    res.json(err);
-                });
-        })
+    })
 
 
 
+    // Route for retrieving all Notes from the db
+    app.delete("/remove", function (req, res) {
+        // Find all Notes
+    //    console.log(req.body.queryID)
 
-        // app.get("/notes", function(req, res) {
-        //     // Find all Notes
-        //     db.Article.findOne({
-        //         id: req.body.queryID
-        //     })
-        //     .populate("note")
-        //       .then(function(dbNote) {
-        //         // If all Notes are successfully found, send them back to the client
-        //         // console.log("note",dbNote)
-        //         const notes =[];
-        //         for(n of dbNote.note){
-        //             console.log(n)
-        //             notes.push({
-        //                 "date":n.date,
-        //                 "comment":n.comment
-        //             })
-        //         }
+    db.Note.deleteOne({
+         id : req.body.queryId 
+        
+      }).then(function (dbDelete) {
+        console.log(dbDelete)
+        // If we were able to successfully update an Article, send it back to the client
+        res.redirect("/articles");
+    })
 
-        //         res.render("index",{notes})
-        //         // res.json(notes);
-        //       })
-        //       .catch(function(err) {
-        //         // If an error occurs, send the error back to the client
-        //         res.json(err);
-        //       });
-        //   });
-    };
+    .catch(function (err) {
+        // If an error occurs, send it back to the client
+        res.json(err);
+    });
+    });
+
+};
 
