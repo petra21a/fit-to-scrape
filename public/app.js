@@ -11,7 +11,7 @@ $(function () {
             method: "DELETE",
             url: "/remove",
             data: {
-                queryID: $(this).attr("id"),
+                queryId: $(this).attr("id"),
             }
         })
             location.reload()
@@ -27,7 +27,7 @@ $(function () {
             method: "POST",
             url: "/submit",
             data: {
-                queryID: $("#comment-submit").attr("value"),
+                queryId: $("#comment-submit").attr("value"),
                 comment: $("#comment").val()
             }
         }).then(function () {
@@ -41,9 +41,9 @@ $(function () {
 
     $(".comment").on("click", function (event) {
         console.log("clicked Comment", $(this).attr("id"));
-        let queryID = $(this).attr("id");
+        let queryId = $(this).attr("id");
         $("#comment-submit").attr("name", "queryId");
-        $("#comment-submit").attr("value", queryID);
+        $("#comment-submit").attr("value", queryId);
         $('#comment-modal').modal('open');
 
     })

@@ -61,7 +61,7 @@ module.exports = function (app) {
         db.Article.find({})
             .populate("note")
             .then(function (dbArticle) {
-                console.log("refresh articles with notes",dbArticle);
+                // console.log("refresh articles with notes",dbArticle);
 
                 res.render("index", { dbArticle })
                 // res.json(notes);
@@ -77,7 +77,7 @@ module.exports = function (app) {
     // Route for saving a new Note to the db and associating it with an article
     app.post("/submit", function (req, res) {
         // console.log("post passed")
-        console.log(req.body.queryId)
+        console.log(req.body)
         // Create a new Note in the db
         db.Note.create(req.body)
             .then(function (dbNote) {
@@ -87,8 +87,10 @@ module.exports = function (app) {
                 //-- it returns the original by default
                 // Since our mongoose query returns a promise, we can chain another 
                 //`.then` which receives the result of the query
-               return db.Article.findOneAndUpdate({
-                    id: req.body.queryId
+                console.log(req.body.queryId)
+               return db.Article.findOneAndUpdate(
+                   {
+                    _id: req.body.queryId
                 }, {
                         $push: { note: dbNote._id }
                     }, { new: true });
@@ -116,7 +118,7 @@ module.exports = function (app) {
          id : req.body.queryId 
         
       }).then(function (dbDelete) {
-        console.log(dbDelete)
+        // console.log(dbDelete)
         // If we were able to successfully update an Article, send it back to the client
         res.redirect("/articles");
     })
